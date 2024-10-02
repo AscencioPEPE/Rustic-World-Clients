@@ -1,0 +1,89 @@
+<section>
+  <h3 (click)="toggleForm()">
+    Add product
+    @if (showForm) {
+    <span class="mdi mdi-chevron-down"></span>
+    }
+    @else {
+    <span class="mdi mdi-chevron-up"></span>
+    }
+  </h3>
+  @if (showForm) {
+  <form (ngSubmit)="onSubmit()" #productForm="ngForm" enctype="multipart/form-data" novalidate>
+    <div class="input-group has-validation mb-3 shadow">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="name" placeholder="Product Name" [(ngModel)]="product.name"
+          name="name" required #name="ngModel" [ngClass]="{'is-invalid': name.invalid && name.touched}">
+        <label for="name">Product Name</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="sku" placeholder="SKU" [(ngModel)]="product.sku" name="sku" required
+          #sku="ngModel" [ngClass]="{'is-invalid': sku.invalid && sku.touched}">
+        <label for="sku">SKU</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="category" placeholder="Category" [(ngModel)]="product.category"
+          name="category" required #category="ngModel" [ngClass]="{'is-invalid': category.invalid && category.touched}">
+        <label for="category">Category</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="description" placeholder="Description"
+          [(ngModel)]="product.description" name="description" required #description="ngModel"
+          [ngClass]="{'is-invalid': description.invalid && description.touched}">
+        <label for="description">Description</label>
+      </div>
+    </div>
+    <div class="input-group has-validation mb-3 shadow">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="size" placeholder="Size" [(ngModel)]="product.size" name="size"
+          required #size="ngModel" [ngClass]="{'is-invalid': size.invalid && size.touched}">
+        <label for="size">Size</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="weight" placeholder="Weight" [(ngModel)]="product.weight"
+          name="weight" required #weight="ngModel" [ngClass]="{'is-invalid': weight.invalid && weight.touched}">
+        <label for="weight">Weight</label>
+      </div>
+    </div>
+    <div class="input-group has-validation mb-3 shadow">
+      <div class="form-floating">
+        <input type="number" class="form-control" id="price" placeholder="Price" [(ngModel)]="product.price"
+          name="price" required #price="ngModel" min="1" [ngClass]="{'is-invalid': price.invalid && price.touched}">
+        <label for="price">Price</label>
+      </div>
+      <div class="form-floating">
+        <input type="number" class="form-control" id="priceUnitary" placeholder="Price Unitary"
+          [(ngModel)]="product.priceUnitary" name="priceUnitary" required #priceUnitary="ngModel" min="1"
+          [ngClass]="{'is-invalid': priceUnitary.invalid && priceUnitary.touched}">
+        <label for="priceUnitary">Price Retail</label>
+      </div>
+      <div class="form-floating">
+        <input type="number" class="form-control" id="priceWholesale" placeholder="Price Wholesale"
+          [(ngModel)]="product.priceWholesale" name="priceWholesale" required #priceWholesale="ngModel" min="1"
+          [ngClass]="{'is-invalid': priceWholesale.invalid && priceWholesale.touched}">
+        <label for="priceWholesale">Price Wholesale</label>
+      </div>
+      <div class="form-floating">
+        <input type="number" class="form-control" id="quantity" placeholder="Quantity" [(ngModel)]="product.quantity"
+          name="quantity" required #quantity="ngModel" min="1"
+          [ngClass]="{'is-invalid': quantity.invalid && quantity.touched}">
+        <label for="quantity">Quantity</label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="image" class="form-label">Image</label>
+      <input type="file" class="form-control product-file-input shadow" id="image" (change)="onFileSelected($event)"
+        name="image" required [ngClass]="{'is-invalid': selectedFile == null}">
+    </div>
+    <div class="form-floating shadow">
+      <button type="submit" class="btn btn-primary"
+        [disabled]="productForm.invalid || selectedFile == null">Submit</button>
+    </div>
+    @if (productForm.invalid && productForm.touched) {
+    <div class="alert alert-danger">
+      Please check the information, something is wrong
+    </div>
+    }
+  </form>
+  }
+</section>

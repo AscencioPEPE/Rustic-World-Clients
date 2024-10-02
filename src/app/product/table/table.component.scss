@@ -1,0 +1,185 @@
+section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 96%;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+h3 {
+  cursor: pointer;
+}
+
+.shadow {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background-color: white;
+}
+.form-floating button {
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+}
+
+.table {
+  margin: 0;
+}
+
+.table th,
+.table td {
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
+  border: 1px solid #dee2e6;
+}
+
+.table th {
+  background-color: #343a40;
+  color: #fff;
+  font-weight: bold;
+}
+
+.table td {
+  background-color: #f9f9f9;
+}
+
+.table td img {
+  max-width: 70px;
+  max-height: 70px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.container-pagination {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.constrols-span {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-link {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  color: #007bff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  text-decoration: none;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #6c757d;
+  background-color: #f1f1f1;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #e9ecef;
+  color: #0056b3;
+}
+
+.btn-sm {
+  width: 100%;
+  margin-bottom: 2px;
+  font-size: 0.875rem;
+}
+
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown-menu {
+  width: fit-content;
+}
+.dropdown-toggle.form-control {
+  border: 1px solid #ced4da;
+}
+
+.dropdown-menu .btn:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+  cursor: pointer;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.select{
+  select {
+    width: fit-content;
+  }
+}
+
+.custom-btn {
+  display: inline-flex; // Usamos inline-flex para que se comporte como un botón regular
+  align-items: center; // Centra los elementos verticalmente
+  justify-content: center; // Centra los elementos horizontalmente
+  padding: 0.375rem 0.75rem; // Ajusta el padding para el espacio interno
+  height: calc(2.25rem + 2px); // Asegura la altura consistente con un input
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  white-space: nowrap; // Evita que el texto se divida en varias líneas
+
+  &:hover {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  .mdi {
+    margin-right: 5px; // Espacio entre el icono y el texto
+    font-size: 1.25rem; // Ajusta el tamaño del icono si es necesario
+  }
+}
