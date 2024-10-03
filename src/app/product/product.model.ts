@@ -29,3 +29,8 @@ export interface Page {
 export interface LimitOptions {
   values: number[];
 }
+
+export enum ClientType {
+  Retail = 'Retail',
+  Wholesale = 'Wholesale'
+}

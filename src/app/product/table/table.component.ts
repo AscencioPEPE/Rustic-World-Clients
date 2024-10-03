@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
-import { LimitOptions, Page, Product, ProductListPaginated } from '../product.model';
+import { ClientType, LimitOptions, Page, Product, ProductListPaginated } from '../product.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ModalEditComponent } from '../modal/modal-edit/modal-edit.component';
 import { ModalImageComponent } from '../modal/modal-image/modal-image.component';
 
 @Component({
@@ -11,10 +10,9 @@ import { ModalImageComponent } from '../modal/modal-image/modal-image.component'
   selector: 'app-table-product',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  imports: [FormsModule, CommonModule, ModalEditComponent, ModalImageComponent],
+  imports: [FormsModule, CommonModule, ModalImageComponent],
 })
 export class TableComponent implements OnInit {
-  showTable: boolean = true;
 
   categories: string[] = [];
   limit: number = 5;
@@ -24,9 +22,7 @@ export class TableComponent implements OnInit {
   skuPrefix: string = '';
   namePrefix: string = '';
 
-  limitOptions: LimitOptions = {
-    values: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
-  };
+  clientType: ClientType = ClientType.Wholesale;
 
 
   productsPaginated: ProductListPaginated = {
@@ -52,7 +48,6 @@ export class TableComponent implements OnInit {
     quantity: 0,
     image: null,
   };
-  selectedProductsku: string = '';
 
   constructor(private productService: ProductService) { }
 
@@ -78,6 +73,10 @@ export class TableComponent implements OnInit {
     this.getProducts();
   }
 
+  toggleClientType(){
+    this.clientType = this.clientType === ClientType.Retail ? ClientType.Wholesale : ClientType.Retail;
+  }
+
   getProducts(): void {
     this.productService.getProductsPaginated(this.categories, this.priceOrder, this.limit, this.page, this.skuPrefix, this.namePrefix);
   }
@@ -87,10 +86,6 @@ export class TableComponent implements OnInit {
     this.getProducts();
   }
 
-  toggleTable(): void {
-    this.showTable = !this.showTable;
-  }
-
   onPageChange(newPage: number): void {
     this.page = newPage;
     this.getProducts();
@@ -98,12 +93,10 @@ export class TableComponent implements OnInit {
 
   editProduct(product: Product): void {
     this.selectedProduct = { ...product };
-    this.selectedProductsku = product.sku;
   }
 
   openImageModal(product: Product): void {
     this.selectedProduct = { ...product };
-    this.selectedProductsku = product.sku;
   }
 
   private convertBlobToImageUrl(blob: any): string {

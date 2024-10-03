@@ -1,108 +1,60 @@
 <section>
-  <h3 (click)="toggleTable()">
-    Products Table
-    @if (showTable) {
-    <span class="mdi mdi-chevron-down"></span>
-    }
-    @else {
-    <span class="mdi mdi-chevron-up"></span>
-    }
-  </h3>
-  @if (showTable) {
   <div class="controls">
-    <input type="text" class="form-control" id="skuPrefix" placeholder="SKU Prefix" [(ngModel)]="skuPrefix"
-      (input)="getProducts()">
-    <input type="text" class="form-control" id="namePrefix" placeholder="Name Prefix" [(ngModel)]="namePrefix"
-      (input)="getProducts()">
-    <div class="select">
-      <select id="limitSelect" class="form-select" [(ngModel)]="limit" (change)="onLimitChange()">
-        @for( value of limitOptions.values; track value)
-        {
-        <option [value]="value">{{ value }} products per page</option>
-        }
-      </select>
-    </div>
+    <button class="btn custom-btn" (click)="toggleClientType()">
+      {{clientType}}
+      @if (clientType === "Retail") {
+       <span class="mdi mdi-cart" style="margin-left: 8px;"></span>
+      }
+      @else {
+       <span class="mdi mdi-truck" style="margin-left: 8px;"></span>
+      }
+    </button>
+    <input type="text" class="form-control" id="skuPrefix" placeholder="SKU" [(ngModel)]="skuPrefix"
+      (input)="getProducts()" />
+    <input type="text" class="form-control" id="namePrefix" placeholder="Name" [(ngModel)]="namePrefix"
+      (input)="getProducts()" />
     <button class="btn custom-btn" (click)="togglePriceOrder()">
-      Order by Price 
-      <span *ngIf="priceOrder === 'asc'" class="mdi mdi-arrow-up"></span>
-      <span *ngIf="priceOrder === 'desc'" class="mdi mdi-arrow-down"></span>
+      Order by Price
+      <span *ngIf="priceOrder === 'asc'" class="mdi mdi-arrow-up" style="margin-left: 8px;"></span>
+      <span *ngIf="priceOrder === 'desc'" class="mdi mdi-arrow-down" style="margin-left: 8px;"></span>
     </button>
   </div>
-  <div class="table-responsive shadow bg-white rounded">
-    <table class="table table-bordered table-hover bg-white">
-      <thead class="table-dark">
-        <tr>
-          <th>Name</th>
-          <th>Sku</th>
-          <th>Category</th>
-          <th>Description</th>
-          <th>Size</th>
-          <th>Weight</th>
-          <th>Price</th>
-          <th>Retail</th>
-          <th>Wholesale</th>
-          <th>Quantity</th>
-          <th>Image</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(product of productsPaginated.products; track product.name)
-        {
-        <tr>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal" class="text-left"><span class="mdi mdi-pencil"></span> {{ product.name }}
-          </td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.sku }}</td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.category }}</td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.description }}</td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.size }}</td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.weight }}</td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.price | currency:'USD' }}</td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.priceUnitary | currency:'USD' }}</td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.priceWholesale | currency:'USD' }}</td>
-          <td (click)="editProduct(product)" style="cursor: pointer;" data-bs-toggle="modal"
-            data-bs-target="#editProductModal">{{ product.quantity }}</td>
-          <td (click)="openImageModal(product)"
-            style="cursor: pointer; text-decoration: underline;color: rgb(0, 76, 255);" data-bs-toggle="modal"
-            data-bs-target="#imageModal">
-            See image
-          </td>
-        </tr>
+  <div class="card-container">
+    @for (product of productsPaginated.products; track $index) {
+    <div class="card product-card" (click)="openImageModal(product)" data-bs-toggle="modal"
+    data-bs-target="#imageModal" style="cursor: pointer;">
+      <img [src]="product.image" class="card-img-top" alt="{{ product.name }}" />
+      <div class="price">
+        @if (clientType === "Retail") {
+        {{ product.priceUnitary | currency: "USD" }}
+        } @else {
+        {{ product.priceWholesale | currency: "USD" }}
         }
-        @empty
-        {
-        <tr>
-          <td colspan="11">There are no items.</td>
-        </tr>
-        }
-      </tbody>
-    </table>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text">{{ product.description }}</p>
+        <a  class="btn btn-secondary" >View Details</a>
+      </div>
+    </div>
+    }
   </div>
-  <app-modal-edit [selectedProduct]="selectedProduct" [originalSku]="selectedProduct.sku"></app-modal-edit>
-  <app-modal-image [selectedProduct]="selectedProduct"></app-modal-image>
-  <nav>
+  <app-modal-image [selectedProduct]="selectedProduct" [clientType]="clientType"></app-modal-image>
+  <div class="pagination-container">
     <ul class="pagination">
       <li class="page-item" [class.disabled]="page === 1">
         <a class="page-link" (click)="onPageChange(page - 1)">Previous</a>
       </li>
-      @for( pageV of pages;track pageV.index)
-      {
+      @for (pageV of pages; track pageV.index) {
       <li class="page-item" [class.active]="pageV.index === page">
-        <a class="page-link" (click)="onPageChange(pageV.index)">{{ pageV.index }}</a>
+        <a class="page-link" (click)="onPageChange(pageV.index)">{{
+          pageV.index
+          }}</a>
       </li>
       }
       <li class="page-item" [class.disabled]="page === productsPaginated.pages">
         <a class="page-link" (click)="onPageChange(page + 1)">Next</a>
       </li>
     </ul>
-  </nav>
-  }
+  </div>
 </section>

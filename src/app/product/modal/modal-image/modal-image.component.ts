@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Product } from '../../product.model';
+import { ClientType, Product } from '../../product.model';
 
 declare var bootstrap: any;
 
@@ -13,6 +13,7 @@ declare var bootstrap: any;
 })
 export class ModalImageComponent {
   @Input() selectedProduct!: Product;
+  @Input() clientType!: ClientType;
 
   constructor() { }
   
